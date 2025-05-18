@@ -5,7 +5,7 @@ const handler = NextAuth({
   providers: [ CredentialsProvider({
 
     name: 'Credentials',
-
+    id: 'credentials',
     credentials: {
       username: { label: "Email", type: "email", placeholder: "test@example.com" },
       password: { label: "Password", type: "password" },
