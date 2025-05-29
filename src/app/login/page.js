@@ -2,26 +2,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useSession, signIn } from "next-auth/react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
   const [error, setError] = useState(false);
+  const { status } = useSession();
 
   async function handleFormSubmit(ev) {
     ev.preventDefault();
     setLoggingIn(true);
     setError(false);
-   
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      headers: { 'Content-Type': 'application/json' },
+
+    const result = await signIn('credentials', {
+      redirect: false,
+      username: email,
+      password,
     });
 
-    if (response.ok) {
-      // Redirect to home page after successful login
+    if (result.ok) {
       window.location.href = '/';
     } else {
       setError(true);

@@ -1,5 +1,6 @@
-import { User } from "../../../models/User";
-import mongoose from "mongoose";
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+import bcrypt from 'bcrypt';
 
 export async function POST(req) {
   try {
@@ -13,38 +14,25 @@ export async function POST(req) {
       );
     }
 
-    // Connect to MongoDB if not already connected
-    if (!mongoose.connections[0].readyState) {
-      await mongoose.connect(process.env.MONGO_URL);
-    }
+    // پسورد را هش کن
+    const hashedPassword = bcrypt.hashSync(body.password, 10);
+    const createdUser = await prisma.user.create({
+      data: {
+        email: body.email,
+        password: hashedPassword,
+      },
+    });
 
-    // Create user
-    const createdUser = await User.create(body);
-    
-    // Return user without password
-    const userWithoutPass = {
-      _id: createdUser._id,
-      email: createdUser.email,
-      createdAt: createdUser.createdAt,
-      updatedAt: createdUser.updatedAt,
-    };
-    
+    // حذف پسورد از خروجی
+    const { password, ...userWithoutPass } = createdUser;
     return Response.json(userWithoutPass);
   } catch (error) {
     console.error('Registration error:', error);
     
     // Handle duplicate email error
-    if (error.code === 11000) {
+    if (error.code === 'P2002') { // خطای ایمیل تکراری در Prisma
       return Response.json(
         { error: "Email already exists" },
-        { status: 400 }
-      );
-    }
-    
-    // Handle validation errors
-    if (error.name === 'ValidationError') {
-      return Response.json(
-        { error: error.message },
         { status: 400 }
       );
     }
