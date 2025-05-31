@@ -24,6 +24,25 @@ export default function ProfilePage() {
     }
   }, [session, status]);
 
+  // گرفتن اطلاعات کاربر از API بعد از هر بار لود شدن صفحه
+  useEffect(() => {
+    async function fetchProfile() {
+      if (status === 'authenticated') {
+        const res = await fetch('/api/profile');
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.name && userName !== data.name) {
+            setUserName(data.name);
+          }
+        }
+      }
+    }
+    // فقط زمانی که userName خالی است یا مقدار جدید فرق دارد، مقدار را ست کن
+    if (!userName) {
+      fetchProfile();
+    }
+  }, [status]);
+
   async function handleProfileInfoUpdate(ev) {
     ev.preventDefault();
     setIsSaving(true);
@@ -55,41 +74,41 @@ export default function ProfilePage() {
       <h1 className="text-center text-orange-500 text-4xl mb-4">
         Profile
       </h1>
-      <div className="flex gap-4 items-center">
-        <div>
+      <div className="flex flex-col items-center justify-center gap-6">
+        <div className="flex flex-col items-center">
           <div className="p-2 rounded-lg relative">
-            <div className="relative h-full w-full">
+            <div className="relative h-[120px] w-[120px]">
               <Image
-                className="rounded-lg w-full h-full"
+                className="rounded-lg object-cover"
                 src="/google.png"
-                width={250}
-                height={250}
+                width={120}
+                height={120}
                 alt={'avatar'}
               />
             </div>
-            <button type="button" className="mt-2 text-primary">Change avatar</button>
+            <button type="button" className="mt-2 text-primary border border-gray-300 rounded-xl px-8 py-2 text-red-400 font-semibold hover:bg-gray-100 transition-all">Edit</button>
           </div>
         </div>
-        <form className="grow mt-4" onSubmit={handleProfileInfoUpdate}>
-          <div className="grow">
+        <form className="w-full max-w-xs mx-auto" onSubmit={handleProfileInfoUpdate}>
+          <div className="flex flex-col gap-3">
             <input
               type="text"
               placeholder="First and LastName"
-              className="w-full p-2 border rounded-md"
+              className="p-2 border rounded-md"
               value={userName}
               onChange={ev => setUserName(ev.target.value)}
             />
             <input
               type="email"
               placeholder="Email"
-              className="w-full p-2 border rounded-md mt-2"
+              className="p-2 border rounded-md bg-gray-200"
               value={session.data.user.email}
               disabled 
             />
             <button
               type="submit"
               disabled={isSaving}
-              className="w-full bg-orange-500 text-white p-2 rounded-md mt-4 hover:bg-orange-600 disabled:bg-gray-400"
+              className="bg-orange-500 text-white p-2 rounded-md mt-2 hover:bg-orange-600 disabled:bg-gray-400 font-semibold transition-colors"
             >
               {isSaving ? 'Saving...' : 'Save'}
             </button>
