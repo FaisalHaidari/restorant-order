@@ -14,32 +14,34 @@ export async function POST(req) {
       );
     }
 
-    // پسورد را هش کن
-    const hashedPassword = bcrypt.hashSync(body.password, 10);
-    const createdUser = await prisma.user.create({
+    // Hash password
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+
+    // Create user
+    const user = await prisma.user.create({
       data: {
         email: body.email,
         password: hashedPassword,
       },
     });
 
-    // حذف پسورد از خروجی
-    const { password, ...userWithoutPass } = createdUser;
-    return Response.json(userWithoutPass);
+    // Remove password from response
+    const { password, ...userWithoutPassword } = user;
+
+    return Response.json(userWithoutPassword);
   } catch (error) {
     console.error('Registration error:', error);
     
     // Handle duplicate email error
-    if (error.code === 'P2002') { // خطای ایمیل تکراری در Prisma
+    if (error.code === 'P2002') {
       return Response.json(
         { error: "Email already exists" },
         { status: 400 }
       );
     }
     
-    // Handle other errors
     return Response.json(
-      { error: "An error occurred during registration" },
+      { error: "Something went wrong" },
       { status: 500 }
     );
   }

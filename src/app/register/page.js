@@ -2,48 +2,60 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [creatingUser, setCreatingUser] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   async function handleFormSubmit(ev) {
     ev.preventDefault();
     setCreatingUser(true);
-    setError(false);
+    setError('');
     setUserCreated(false);
    
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    if (response.ok) {
-      setUserCreated(true);
-    } else {
-      setError(true);
+      const data = await response.json();
+
+      if (response.ok) {
+        setUserCreated(true);
+        // Redirect to login page after 2 seconds
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      } else {
+        setError(data.error || 'Something went wrong');
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+    } finally {
+      setCreatingUser(false);
     }
-    setCreatingUser(false);
   }
 
   return (
     <section className="mt-8">
-      <h1 className="text-center text-primary text-4xl mb-4">
+      <h1 className="text-center text-orange-500 text-4xl mb-4">
         Register
       </h1>
       {error && (
         <div className="my-4 text-center text-red-500">
-          An error has occurred.<br /> Please try again.
+          {error}
         </div>
       )}
       {userCreated && (
         <div className="my-4 text-center text-green-500">
-          User created.<br /> Now you can{' '}
-          <Link className="underline" href={'/login'}>Login &raquo;</Link>
+          User created successfully!<br /> Redirecting to login page...
         </div>
       )}
       {!userCreated && (
@@ -54,6 +66,7 @@ export default function RegisterPage() {
             value={email}
             disabled={creatingUser}
             onChange={(ev) => setEmail(ev.target.value)}
+            required
           />
           <input
             type="password"
@@ -61,18 +74,16 @@ export default function RegisterPage() {
             value={password}
             disabled={creatingUser}
             onChange={(ev) => setPassword(ev.target.value)}
+            required
+            minLength={6}
           /> 
           <button type="submit" disabled={creatingUser}>
             {creatingUser ? 'Creating account...' : 'Register'}
           </button>
-          <div className="my-4 text-center text-gray-500">
-            or login with provider
+          <div className="text-center my-4 text-gray-500 border-t pt-4">
+            Existing account?{' '}
+            <Link className="underline" href={'/login'}>Login here &raquo;</Link>
           </div>
-          <button type="button" className="flex gap-4 justify-center items-center">
-            <Image src={'/google.png'} alt={''} width={24} height={24} />
-            Login with google
-          </button>
-          <div className="text-center my-4 text-gray-500 border-t pt-4">Existing account? {''}<Link className="underline" href={'/login'}>Login here &raquo;</Link></div>
         </form>
       )}
     </section>

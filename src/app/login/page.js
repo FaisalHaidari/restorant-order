@@ -3,36 +3,38 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const { status } = useSession();
+  const router = useRouter();
 
   async function handleFormSubmit(ev) {
     ev.preventDefault();
     setLoggingIn(true);
-    setError(false);
+    setError('');
 
     const result = await signIn('credentials', {
-      redirect: false,
-      username: email,
+      email,
       password,
+      redirect: false,
     });
 
-    if (result.ok) {
-      window.location.href = '/';
+    if (result?.error) {
+      setError('Invalid email or password');
     } else {
-      setError(true);
+      router.push('/');
     }
     setLoggingIn(false);
   }
 
   return (
     <section className="mt-8">
-      <h1 className="text-center text-primary text-4xl mb-4">
+      <h1 className="text-center text-orange-500 text-4xl mb-4">
         Login
       </h1>
       {error && (

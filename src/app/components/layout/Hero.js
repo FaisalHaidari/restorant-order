@@ -29,12 +29,13 @@ export default function Hero() {
                     </button>
                 </div>
             </div>
-            <div className="w-100 h-100 relative">
+            <div className="relative w-full h-[400px]">
                 <Image
                     src={'/ankarapilav.jpeg'}
                     alt={'Ankara Pilavı'}
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    className="object-contain"
+                    priority
                 />
             </div>
         </section>

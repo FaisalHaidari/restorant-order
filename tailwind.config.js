@@ -12,7 +12,7 @@ module.exports = {
         secondary: '#525252',
       },
       fontFamily: {
-        sans: ['var(--font-inter)'],
+        sans: ['var(--font-roboto)'],
       },
       container: {
         center: true,
@@ -26,7 +26,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
+  plugins: [],
 } 
