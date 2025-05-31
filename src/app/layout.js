@@ -4,6 +4,7 @@ import Header from "./components/layout/Header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import SessionProvider from "./components/SessionProvider";
+import AppProvider from "./components/AppContext";
 
 const roboto = Roboto({ 
   weight: ['400', '500', '700'],
@@ -23,13 +24,15 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={`${roboto.variable}`}>
         <SessionProvider session={session}>
-          <main className="max-w-4xl mx-auto p-4">
-            <Header />
-            {children}
-            <footer className="border-t p-8 text-center text-gray-500 mt-8">
-              &copy; 2024 All rights reserved
-            </footer>
-          </main>
+          <AppProvider>
+            <main className="max-w-4xl mx-auto p-4">
+              <Header />
+              {children}
+              <footer className="border-t p-8 text-center text-gray-500 mt-8">
+                &copy; 2024 All rights reserved
+              </footer>
+            </main>
+          </AppProvider>
         </SessionProvider>
       </body>
     </html>

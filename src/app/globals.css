@@ -30,3 +30,7 @@ button[type="submit"]:disabled,
 .submit:disabled {
   @apply cursor-not-allowed bg-red-300;
 }
+
+body {
+  font-family: system-ui, ui-sans-serif, sans-serif;
+}

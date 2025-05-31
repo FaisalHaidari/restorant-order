@@ -12,7 +12,7 @@ module.exports = {
         secondary: '#525252',
       },
       fontFamily: {
-        sans: ['var(--font-roboto)'],
+        sans: ['system-ui', 'ui-sans-serif', 'sans-serif'],
       },
       container: {
         center: true,

@@ -4,18 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useUser } from "../AppContext";
 
 export default function Header() {
   const { data: session, status } = useSession();
+  const { userName } = useUser();
   const router = useRouter();
-  const userData = session?.user;
-  let userName = userData?.name || userData?.email;
-  if (userName && userName.includes(' ')) {
-    userName = userName.split(' ')[0];
-  }
-  if (userName && userName.includes('@')) {
-    userName = userName.split('@')[0];
-  }
 
   return (
     <header className="flex items-center justify-between ">
@@ -29,25 +23,28 @@ export default function Header() {
         <Link href={""}>ILETISIM</Link>
       </nav>
       <nav className="flex items-center gap-4 text-gray-500 font-semibold">
+        {status === 'loading' && (
+          <></>
+        )}
         {status === 'authenticated' && (
-  <>
-    <Link href={'/profile'}>{userName}</Link>
-    <button
-      onClick={() => signOut()}
-      className="bg-orange-500 rounded-full text-white px-8 py-2"
-    >
-      Logout
-    </button>
-  </>
-)}
-{status === 'unauthenticated' && (
-  <>
-    <Link href={'/login'}>Login</Link>
-    <Link href={'/register'} className="bg-orange-500 rounded-full text-white px-8 py-2">
-      Register
-    </Link>
-  </>
-)}
+          <>
+            <Link href={'/profile'}>{userName}</Link>
+            <button
+              onClick={() => signOut()}
+              className="bg-orange-500 rounded-full text-white px-8 py-2"
+            >
+              Logout
+            </button>
+          </>
+        )}
+        {status === 'unauthenticated' && (
+          <>
+            <Link href={'/login'}>Login</Link>
+            <Link href={'/register'} className="bg-orange-500 rounded-full text-white px-8 py-2">
+              Register
+            </Link>
+          </>
+        )}
       </nav>
     </header>
   );
