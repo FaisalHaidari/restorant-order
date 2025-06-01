@@ -34,3 +34,7 @@ button[type="submit"]:disabled,
 body {
   font-family: system-ui, ui-sans-serif, sans-serif;
 }
+
+html {
+  scroll-behavior: smooth;
+}

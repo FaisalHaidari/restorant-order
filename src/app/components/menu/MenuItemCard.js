@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function MenuItemCard({ image, name, ingredients, price, onAddToCart }) {
   return (
-    <div className="bg-gray-100 rounded-xl flex flex-col items-center p-4 w-72">
+    <div className="bg-gray-100 rounded-xl flex flex-col items-center p-4 w-72 transition-all duration-200 hover:bg-white hover:shadow-lg hover:shadow-black/20">
       <div className="w-32 h-32 rounded-lg overflow-hidden mb-2">
         <Image src={image} alt={name} width={128} height={128} className="object-cover w-full h-full" />
       </div>

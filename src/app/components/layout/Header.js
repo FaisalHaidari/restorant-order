@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useUser } from "../AppContext";
+import SmoothScrollLink from "./SmoothScrollLink";
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -18,9 +19,9 @@ export default function Header() {
       </Link>
       <nav className="flex items-center gap-8 text-gray-500 font-semibold">
         <Link href={"/"}>Anasayfa</Link>
-        <Link href={""}>Menu</Link>
-        <Link href={""}>Hakkında</Link>
-        <Link href={""}>ILETISIM</Link>
+        <Link href={"/menu"}>Menu</Link>
+        <SmoothScrollLink href={"/#about"}>Hakkında</SmoothScrollLink>
+        <SmoothScrollLink href={"/#contact"}>ILETISIM</SmoothScrollLink>
       </nav>
       <nav className="flex items-center gap-4 text-gray-500 font-semibold">
         {status === 'loading' && (
