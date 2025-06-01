@@ -61,6 +61,7 @@ export async function GET(req) {
         postalCode: true,
         city: true,
         country: true,
+        admin: true,
       },
     });
     if (!user) {

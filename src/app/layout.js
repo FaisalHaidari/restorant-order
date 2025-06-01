@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import SessionProvider from "./components/SessionProvider";
 import AppProvider from "./components/AppContext";
+import ClientTabsWrapper from "./components/layout/ClientTabsWrapper";
+import ShowTabsOnAdminPages from "./components/layout/ShowTabsOnAdminPages";
 
 const roboto = Roboto({ 
   weight: ['400', '500', '700'],
@@ -27,6 +29,7 @@ export default async function RootLayout({ children }) {
           <AppProvider>
             <main className="max-w-4xl mx-auto p-4">
               <Header />
+              <ShowTabsOnAdminPages />
               {children}
               <footer className="border-t p-8 text-center text-gray-500 mt-8">
                 &copy; 2024 All rights reserved

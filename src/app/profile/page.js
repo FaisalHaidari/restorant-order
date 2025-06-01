@@ -19,6 +19,7 @@ export default function ProfilePage() {
   const [postalCode, setPostalCode] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // گرفتن اطلاعات کاربر از API بعد از هر بار لود شدن صفحه
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function ProfilePage() {
         const res = await fetch('/api/profile');
         if (res.ok) {
           const data = await res.json();
-          console.log('API PROFILE DATA:', data); // لاگ مقدار دریافتی از API
+          if (data?.admin) setIsAdmin(data.admin);
           if (data?.name) {
             setUserName(data.name);
             setUserNameContext(data.name);
