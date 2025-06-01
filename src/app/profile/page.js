@@ -114,108 +114,121 @@ export default function ProfilePage() {
   }
 
   return (
-    <section className="mt-8">
-      <h1 className="text-center text-orange-500 text-4xl mb-4">
-        Profile
-      </h1>
+    <section className="mt-4 flex flex-col items-center justify-center min-h-[80vh]">
+      <h1 className="text-center text-orange-500 text-3xl mb-4">Profile</h1>
       {isSaved && (
         <div className="max-w-xs mx-auto">
-          <h2 className="text-center bg-green-100 p-3 rounded-lg text-black font-semibold max-w-xs mx-auto text-base mt-4 mb-2 shadow border">
-            Profile Saved!
+          <h2 className="text-center bg-green-100 p-2 rounded-lg text-black font-semibold max-w-xs mx-auto text-sm mt-1 mb-1 shadow border">
+            Profile updated successfully!
           </h2>
         </div>
       )}
-      <div className="flex flex-col items-center justify-center gap-6">
-        <div className="flex flex-col items-center">
-          <div className="text-center font-bold text-lg mt-2">{userName}</div>
-          <div className="p-2 rounded-lg relative">
-            <div className="relative w-[120px] h-[120px]">
-              <Image
-                className="rounded-lg object-cover"
-                src={avatar || "/google.png"}
-                width={120}
-                height={120}
-                style={{ aspectRatio: '1/1', objectFit: 'cover' }}
-                alt={'avatar'}
-              />
-            </div>
-            <input
-              type="file"
-              accept="image/*"
-              id="avatar-upload"
-              className="hidden"
-              onChange={handleFileChange}
+      <div className="bg-white p-2 rounded-lg flex flex-col md:flex-row gap-4 items-start w-full max-w-md">
+        {/* Profile Image and Edit Button Section */}
+        <div className="flex flex-col items-center w-full md:w-1/3 md:items-center gap-1">
+          <div className="relative w-[100px] h-[100px]">
+            <Image
+              className="rounded-2xl object-cover"
+              src={avatar || "/google.png"}
+              width={100}
+              height={100}
+              style={{ aspectRatio: '1/1', objectFit: 'cover' }}
+              alt={'avatar'}
             />
-            <button
-              type="button"
-              className="mt-2 text-primary border border-gray-300 rounded-xl px-8 py-2 text-red-400 font-semibold hover:bg-gray-100 transition-all"
-              onClick={() => document.getElementById('avatar-upload').click()}
-            >
-              Edit
-            </button>
           </div>
+          <input
+            type="file"
+            accept="image/*"
+            id="avatar-upload"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <button
+            type="button"
+            className="text-orange-500 border border-orange-400 rounded-xl px-3 py-1 text-sm font-semibold hover:bg-orange-50 transition-all h-8 mt-1"
+            onClick={() => document.getElementById('avatar-upload').click()}
+          >
+            Edit
+          </button>
         </div>
-        <form className="w-full max-w-xs mx-auto" onSubmit={handleProfileInfoUpdate}>
-          <div className="flex flex-col gap-3">
-            <input
-              type="text"
-              placeholder="First and LastName"
-              className="p-2 border rounded-md"
-              value={userName}
-              onChange={ev => setUserName(ev.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="p-2 border rounded-md bg-gray-200"
-              value={session.data.user.email}
-              disabled 
-            />
-            <input
-              type="tel"
-              placeholder="Phone number"
-              className="p-2 border rounded-md"
-              value={phone}
-              onChange={ev => setPhone(ev.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Street address"
-              className="p-2 border rounded-md"
-              value={street}
-              onChange={ev => setStreet(ev.target.value)}
-            />
-            <div className="flex gap-4">
+        {/* Form Section */}
+        <form onSubmit={handleProfileInfoUpdate} className="flex-1 flex flex-col gap-1 w-full">
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="name">First and last name</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="First and last name"
+            className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
+            value={userName}
+            onChange={ev => setUserName(ev.target.value)}
+          />
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email"
+            className="p-1 border rounded-md bg-gray-300 cursor-not-allowed text-sm h-8 mt-0"
+            value={session.data.user.email}
+            disabled
+          />
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="phone">Phone</label>
+          <input
+            id="phone"
+            type="tel"
+            placeholder="Phone"
+            className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
+            value={phone}
+            onChange={ev => setPhone(ev.target.value)}
+          />
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="street">Street address</label>
+          <input
+            id="street"
+            type="text"
+            placeholder="Street address"
+            className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
+            value={street}
+            onChange={ev => setStreet(ev.target.value)}
+          />
+          <div className="flex gap-1">
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="postalCode">Postal code</label>
               <input
+                id="postalCode"
                 type="text"
                 placeholder="Postal code"
-                className="p-2 border rounded-md w-1/2"
+                className="p-1 border rounded-md bg-gray-100 text-sm h-8 w-full mt-0"
                 value={postalCode}
                 onChange={ev => setPostalCode(ev.target.value)}
               />
+            </div>
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="city">City</label>
               <input
+                id="city"
                 type="text"
                 placeholder="City"
-                className="p-2 border rounded-md w-1/2"
+                className="p-1 border rounded-md bg-gray-100 text-sm h-8 w-full mt-0"
                 value={city}
                 onChange={ev => setCity(ev.target.value)}
               />
             </div>
-            <input
-              type="text"
-              placeholder="Country"
-              className="p-2 border rounded-md"
-              value={country}
-              onChange={ev => setCountry(ev.target.value)}
-            />
-            <button
-              type="submit"
-              disabled={isSaving}
-              className="bg-orange-500 text-white p-2 rounded-md mt-2 hover:bg-orange-600 disabled:bg-gray-400 font-semibold transition-colors"
-            >
-              {isSaving ? 'Saving...' : 'Save'}
-            </button>
           </div>
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="country">Country</label>
+          <input
+            id="country"
+            type="text"
+            placeholder="Country"
+            className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
+            value={country}
+            onChange={ev => setCountry(ev.target.value)}
+          />
+          <button
+            type="submit"
+            disabled={isSaving}
+            className="bg-red-500 text-white p-1 rounded-md mt-2 hover:bg-red-600 disabled:bg-gray-400 font-semibold transition-colors text-sm h-8"
+          >
+            {isSaving ? 'Saving...' : 'Save'}
+          </button>
         </form>
       </div>
     </section>
