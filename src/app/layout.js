@@ -4,7 +4,7 @@ import Header from "./components/layout/Header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import SessionProvider from "./components/SessionProvider";
-import AppProvider from "./components/AppContext";
+import AppProvider, { CartCountProvider, CartItemsProvider } from "./components/AppContext";
 import ClientTabsWrapper from "./components/layout/ClientTabsWrapper";
 import ShowTabsOnAdminPages from "./components/layout/ShowTabsOnAdminPages";
 
@@ -27,14 +27,18 @@ export default async function RootLayout({ children }) {
       <body className={`${roboto.variable}`}>
         <SessionProvider session={session}>
           <AppProvider>
-            <main className="max-w-4xl mx-auto p-4">
-              <Header />
-              <ShowTabsOnAdminPages />
-              {children}
-              <footer className="border-t p-8 text-center text-gray-500 mt-8">
-                &copy; 2024 All rights reserved
-              </footer>
-            </main>
+            <CartCountProvider>
+              <CartItemsProvider>
+                <main className="max-w-4xl mx-auto p-4">
+                  <Header />
+                  <ShowTabsOnAdminPages />
+                  {children}
+                  <footer className="border-t p-8 text-center text-gray-500 mt-8">
+                    &copy; 2024 All rights reserved
+                  </footer>
+                </main>
+              </CartItemsProvider>
+            </CartCountProvider>
           </AppProvider>
         </SessionProvider>
       </body>

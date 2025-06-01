@@ -11,6 +11,48 @@ export function useUser() {
   return useContext(UserContext);
 }
 
+// Cart count context for showing badge on cart icon
+const CartCountContext = createContext();
+
+export function CartCountProvider({ children }) {
+  const [cartCount, setCartCount] = useState(0);
+
+  function addToCart() {
+    setCartCount(count => count + 1);
+  }
+
+  return (
+    <CartCountContext.Provider value={{ cartCount, addToCart }}>
+      {children}
+    </CartCountContext.Provider>
+  );
+}
+
+export function useCartCount() {
+  return useContext(CartCountContext);
+}
+
+// Cart items context for showing actual items in cart page
+const CartItemsContext = createContext();
+
+export function CartItemsProvider({ children }) {
+  const [cartItems, setCartItems] = useState([]);
+
+  function addItem(item) {
+    setCartItems(prev => [...prev, item]);
+  }
+
+  return (
+    <CartItemsContext.Provider value={{ cartItems, addItem }}>
+      {children}
+    </CartItemsContext.Provider>
+  );
+}
+
+export function useCartItems() {
+  return useContext(CartItemsContext);
+}
+
 export default function AppProvider({ children }) {
     const [userName, setUserName] = useState('');
     const { data: session, status } = useSession();

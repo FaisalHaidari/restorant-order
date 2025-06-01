@@ -1,10 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import MenuItemCard from "../components/menu/MenuItemCard";
+import { useCartCount, useCartItems } from "../components/AppContext";
 
 export default function MenuPage() {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useCartCount();
+  const { addItem } = useCartItems();
 
   useEffect(() => {
     fetch("/api/menu-items")
@@ -12,6 +15,11 @@ export default function MenuPage() {
       .then(data => setMenuItems(data))
       .finally(() => setLoading(false));
   }, []);
+
+  function handleAddToCart(item) {
+    addToCart();
+    addItem(item);
+  }
 
   return (
     <section className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -27,7 +35,7 @@ export default function MenuPage() {
               name={item.name}
               ingredients={item.description}
               price={item.price}
-              onAddToCart={() => {}}
+              onAddToCart={() => handleAddToCart(item)}
             />
           ))}
         </div>
