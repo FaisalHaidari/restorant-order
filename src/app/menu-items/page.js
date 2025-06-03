@@ -9,10 +9,19 @@ export default function MenuItemsPage() {
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [basePrice, setBasePrice] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("edit");
+
+  // Fetch categories
+  useEffect(() => {
+    fetch("/api/categories")
+      .then(res => res.json())
+      .then(data => setCategories(data));
+  }, []);
 
   // Load item for editing if editId is present
   useEffect(() => {
@@ -27,6 +36,7 @@ export default function MenuItemsPage() {
             setItemName(item.name || "");
             setDescription(item.description || "");
             setBasePrice(item.price?.toString() || "");
+            setCategoryId(item.categoryId?.toString() || "");
           }
         })
         .finally(() => setLoading(false));
@@ -36,6 +46,7 @@ export default function MenuItemsPage() {
       setItemName("");
       setDescription("");
       setBasePrice("");
+      setCategoryId("");
     }
   }, [editId]);
 
@@ -63,6 +74,7 @@ export default function MenuItemsPage() {
       description,
       price: basePrice,
       image: preview,
+      categoryId: Number(categoryId),
     };
     if (editId) {
       // Update existing item
@@ -96,8 +108,10 @@ export default function MenuItemsPage() {
       {/* Show all menu items button */}
       <div className="w-full flex justify-center mb-6">
         <a href="/menu-items/all" className="flex items-center gap-2 border rounded-xl px-8 py-3 font-semibold text-gray-700 bg-white hover:bg-gray-100 transition-all text-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
           <span>Show all menu items</span>
-          <Right className="w-6 h-6" />
         </a>
       </div>
       <div className="flex flex-col md:flex-row gap-6 items-start bg-white p-4 rounded-lg">
@@ -151,6 +165,19 @@ export default function MenuItemsPage() {
             value={basePrice}
             onChange={e => setBasePrice(e.target.value)}
           />
+          <label className="text-sm font-medium text-gray-700 mb-[2px]" htmlFor="category">Kategori</label>
+          <select
+            id="category"
+            className="p-1 border rounded-md bg-gray-100 mt-0 mb-2"
+            value={categoryId}
+            onChange={e => setCategoryId(e.target.value)}
+            required
+          >
+            <option value="">Bir kategori seçin</option>
+            {categories.filter(cat => cat.name !== 'Yiyicek').map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
           <button
             type="submit"
             className="bg-orange-500 text-white rounded-xl py-2 font-semibold mt-2 hover:bg-orange-600 transition-all"

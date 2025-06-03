@@ -1,9 +1,14 @@
+import prisma from '../../../lib/prisma';
 import { NextResponse } from 'next/server';
-import prisma from '../../../lib/db';
 
-export async function GET() {
-  const users = await prisma.user.findMany({
-    select: { id: true, name: true, email: true },
-  });
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const isAdmin = searchParams.get('admin');
+  let users;
+  if (isAdmin) {
+    users = await prisma.user.findMany({ where: { admin: true } });
+  } else {
+    users = await prisma.user.findMany();
+  }
   return NextResponse.json(users);
 } 

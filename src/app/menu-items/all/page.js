@@ -15,7 +15,9 @@ export default function AllMenuItemsPage() {
     <section className="max-w-md mx-auto mt-8">
       <a href="/menu-items" className="flex items-center gap-2 border rounded-xl px-8 py-3 font-semibold text-gray-700 bg-white hover:bg-gray-100 transition-all text-lg mb-6 w-full justify-center">
         <span>Create new menu item</span>
-        <Right className="w-6 h-6" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
       </a>
       <div className="text-gray-700 font-semibold mb-2">Edit menu item:</div>
       <div className="flex flex-col gap-3">

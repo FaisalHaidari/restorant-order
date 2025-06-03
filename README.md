@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🍽️ Restoran Sipariş Sistemi Projesi
 
-## Getting Started
+## Proje Tanıtımı
+Bu proje, **Next.js**, **Prisma** ve **Tailwind CSS** kullanılarak geliştirilmiş modern ve duyarlı bir restoran sipariş sistemidir. Amaç, restoran menüsünün kolayca yönetilmesi, kullanıcıların çevrim içi sipariş verebilmesi ve yönetici ile kullanıcılar arasında iletişimin sağlanmasıdır.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Temel Özellikler 
+- **Kullanıcı kaydı ve girişi** (güvenli kimlik doğrulama)
+- **Rol tabanlı erişim:** Yönetici ve normal kullanıcı
+- **Mesajlaşma sistemi** (kullanıcı ve yönetici arasında)
+- **Kategoriye göre menü yönetimi** (Yiyecek ve İçecek)
+- **Sepet ve sipariş oluşturma** (adres detayları ile)
+- **Şık ve duyarlı arayüz** (Tailwind CSS ile)
+- **Kullanıcı yönetimi** (yönetici tarafından düzenleme, silme, rol değiştirme)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Kullanılan Teknolojiler 
+- [Next.js](https://nextjs.org/) (React framework)
+- [Prisma ORM](https://www.prisma.io/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [SQLite](https://www.sqlite.org/) (varsayılan veritabanı)
+- [NextAuth.js](https://next-auth.js.org/) (kimlik doğrulama)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Kurulum ve Çalıştırma 
+1. Bağımlılıkları yükleyin:
+   ```bash
+   npm install
+   ```
+2. Veritabanı migrasyonunu çalıştırın:
+   ```bash
+   npx prisma migrate dev
+   ```
+3. Projeyi başlatın:
+   ```bash
+   npm run dev
+   ```
+4. Tarayıcıda açın:
+   [http://localhost:3000](http://localhost:3000)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Klasör Yapısı (Özet)
+- `src/app/` : Proje sayfaları ve API'ler
+- `src/components/` : Arayüz bileşenleri
+- `prisma/` : Veritabanı şeması ve scriptler
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Ek Notlar 
+- Yönetici paneline erişmek için yönetici hesabı ile giriş yapmalısınız.
+- Menüde ürün ekleme, düzenleme ve silme sadece yöneticiye açıktır.
+- Mesajlaşma sadece yönetici ve normal kullanıcılar arasında mümkündür.
+- Proje tamamen mobil ve masaüstü uyumludur.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Geliştirici 
+Bu proje, İnternet Programcılığı II dersi için dönem sonu projesi olarak geliştirilmiştir.
+
+---
+
+> **Projeyi incelediğiniz için teşekkürler!** 

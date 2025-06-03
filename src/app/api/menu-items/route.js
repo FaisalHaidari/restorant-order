@@ -2,9 +2,30 @@ import prisma from '../../../lib/db';
 import { NextResponse } from 'next/server';
 
 // Get all menu items
-export async function GET() {
-  const items = await prisma.menuItem.findMany({ orderBy: { id: 'desc' } });
-  return NextResponse.json(items);
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+
+    const menuItems = await prisma.menuItem.findMany({
+      where: category ? {
+        category: {
+          name: category
+        }
+      } : undefined,
+      include: {
+        category: true
+      }
+    });
+
+    return NextResponse.json(menuItems);
+  } catch (error) {
+    console.error("Error fetching menu items:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch menu items" },
+      { status: 500 }
+    );
+  }
 }
 
 // Create a new menu item
@@ -16,6 +37,7 @@ export async function POST(req) {
       description: data.description,
       price: parseFloat(data.price),
       image: data.image,
+      categoryId: Number(data.categoryId),
     },
   });
   return NextResponse.json(item);
@@ -31,6 +53,7 @@ export async function PUT(req) {
       description: data.description,
       price: parseFloat(data.price),
       image: data.image,
+      categoryId: Number(data.categoryId),
     },
   });
   return NextResponse.json(item);

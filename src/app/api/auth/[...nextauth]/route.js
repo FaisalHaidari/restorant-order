@@ -40,6 +40,7 @@ export const authOptions = {
         return {
           id: user.id,
           email: user.email,
+          admin: user.admin,
         };
       }
     })
@@ -54,12 +55,18 @@ export const authOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.admin = user.admin;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
+        session.user.admin = token.admin;
+        const user = await prisma.user.findUnique({ where: { id: token.id } });
+        if (user) {
+          session.user.name = user.name;
+        }
       }
       return session;
     }

@@ -39,11 +39,42 @@ export function CartItemsProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
   function addItem(item) {
-    setCartItems(prev => [...prev, item]);
+    setCartItems(prev => {
+      const idx = prev.findIndex(i => i.name === item.name);
+      if (idx > -1) {
+        // If item exists, increase quantity
+        return prev.map((i, index) =>
+          index === idx ? { ...i, quantity: (i.quantity || 1) + 1 } : i
+        );
+      } else {
+        // If new item, set quantity to 1
+        return [...prev, { ...item, quantity: 1 }];
+      }
+    });
+  }
+
+  function removeItem(index) {
+    setCartItems(prev => prev.filter((_, i) => i !== index));
+  }
+
+  function increaseQuantity(index) {
+    setCartItems(prev => prev.map((item, i) =>
+      i === index ? { ...item, quantity: (item.quantity || 1) + 1 } : item
+    ));
+  }
+
+  function decreaseQuantity(index) {
+    setCartItems(prev => prev.map((item, i) => {
+      if (i === index) {
+        const newQty = (item.quantity || 1) - 1;
+        return newQty > 0 ? { ...item, quantity: newQty } : item;
+      }
+      return item;
+    }).filter((item, i) => (i !== index || (item.quantity && item.quantity > 0))));
   }
 
   return (
-    <CartItemsContext.Provider value={{ cartItems, addItem }}>
+    <CartItemsContext.Provider value={{ cartItems, addItem, removeItem, increaseQuantity, decreaseQuantity }}>
       {children}
     </CartItemsContext.Provider>
   );
