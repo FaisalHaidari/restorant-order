@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function CartPage() {
-  const { cartItems, removeItem, increaseQuantity, decreaseQuantity } = useCartItems();
+  const { cartItems, removeItem, increaseQuantity, decreaseQuantity, clearCart } = useCartItems();
   const total = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
   // Checkout form state
   const [phone, setPhone] = useState("");
@@ -61,7 +61,8 @@ export default function CartPage() {
     });
     const data = await res.json();
     if (data.success) {
-      router.push(`/payment?orderId=${data.order.id}`);
+      clearCart();
+      router.push(`/order/${data.order.id}`);
     } else {
       alert('Sipariş kaydedilemedi!');
     }

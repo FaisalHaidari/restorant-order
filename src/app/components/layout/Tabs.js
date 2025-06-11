@@ -28,6 +28,9 @@ export default function Tabs({ isAdmin }) {
       <Link className={tabClass(path.startsWith("/users"))} href={"/users"}>
         Users
       </Link>
+      <Link className={tabClass(path.startsWith("/orders"))} href={"/orders"}>
+        Orders
+      </Link>
     </div>
   );
 } 

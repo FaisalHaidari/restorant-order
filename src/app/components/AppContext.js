@@ -73,8 +73,12 @@ export function CartItemsProvider({ children }) {
     }).filter((item, i) => (i !== index || (item.quantity && item.quantity > 0))));
   }
 
+  function clearCart() {
+    setCartItems([]);
+  }
+
   return (
-    <CartItemsContext.Provider value={{ cartItems, addItem, removeItem, increaseQuantity, decreaseQuantity }}>
+    <CartItemsContext.Provider value={{ cartItems, addItem, removeItem, increaseQuantity, decreaseQuantity, clearCart }}>
       {children}
     </CartItemsContext.Provider>
   );
