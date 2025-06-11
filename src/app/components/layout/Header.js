@@ -57,7 +57,7 @@ export default function Header() {
               onClick={() => signOut({ callbackUrl: '/' })}
               className="bg-orange-500 rounded-full text-white px-8 py-2"
             >
-              Logout
+              Çıkış Yap
             </button>
             <div className="flex items-center gap-2">
               {!session?.user?.admin && (
@@ -99,9 +99,9 @@ export default function Header() {
         )}
         {status === 'unauthenticated' && (
           <>
-            <Link href={'/login'}>Login</Link>
+            <Link href={'/login'}>Giriş Yap</Link>
             <Link href={'/register'} className="bg-orange-500 rounded-full text-white px-8 py-2">
-              Register
+              Kaydol
             </Link>
           </>
         )}

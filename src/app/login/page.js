@@ -25,7 +25,7 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      setError('Invalid email or password');
+      setError('Geçersiz e-posta veya şifre');
     } else {
       router.push('/');
     }
@@ -35,41 +35,34 @@ export default function LoginPage() {
   return (
     <section className="mt-8">
       <h1 className="text-center text-orange-500 text-4xl mb-4">
-        Login
+        Giriş Yap
       </h1>
       {error && (
         <div className="my-4 text-center text-red-500">
-          Invalid email or password.<br /> Please try again.
+          Geçersiz e-posta veya şifre.<br /> Lütfen tekrar deneyin.
         </div>
       )}
       <form className="block max-w-xs mx-auto" onSubmit={handleFormSubmit}>
         <input
           type="email"
-          placeholder="email"
+          placeholder="e-posta"
           value={email}
           disabled={loggingIn}
           onChange={(ev) => setEmail(ev.target.value)}
         />
         <input
           type="password"
-          placeholder="password"
+          placeholder="şifre"
           value={password}
           disabled={loggingIn}
           onChange={(ev) => setPassword(ev.target.value)}
         /> 
         <button type="submit" disabled={loggingIn}>
-          {loggingIn ? 'Logging in...' : 'Login'}
-        </button>
-        <div className="my-4 text-center text-gray-500">
-          or login with provider
-        </div>
-        <button type="button" className="flex gap-4 justify-center items-center">
-          <Image src={'/google.png'} alt={''} width={24} height={24} />
-          Login with google
+          {loggingIn ? 'Giriş yapılıyor...' : 'Giriş Yap'}
         </button>
         <div className="text-center my-4 text-gray-500 border-t pt-4">
-          Don't have an account?{' '}
-          <Link className="underline" href={'/register'}>Register here &raquo;</Link>
+          Hesabınız yok mu?{' '}
+          <Link className="underline" href={'/register'}>Buradan kaydolun &raquo;</Link>
         </div>
       </form>
     </section>

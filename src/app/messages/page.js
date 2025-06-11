@@ -61,7 +61,7 @@ export default function MessagesPage() {
     setLoading(false);
   }
 
-  // فقط پیام‌های ادمین به کاربر را نمایش بده
+  // Yöneticiden kullanıcıya gelen mesajları filtrele
   const adminMessages = messages.filter(
     msg => msg.sender?.admin && msg.receiverId === session?.user?.id
   );

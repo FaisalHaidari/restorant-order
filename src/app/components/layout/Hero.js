@@ -1,5 +1,5 @@
 "use client";
-import Right from "../icons/Right";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function Hero() {
+    const router = useRouter();
+
     useEffect(() => {
         localStorage.removeItem("token");
     }, []);
@@ -19,13 +21,19 @@ export default function Hero() {
                 <p className="my-6 text-gray-500 text-sm">Kavurma, her günü tamamlayan eksik parçadır; hayatın basit ama lezzetli bir neşesidir
                 </p>
                 <div className="flex gap-4 text-sm">
-                    <button type="button" className="bg-orange-500 flex items-center gap-8 text-white uppercase px-8 py-2 rounded-full whitespace-nowrap min-w-[220px]">
+                    <button 
+                        type="button" 
+                        className="bg-orange-500 flex items-center gap-2 text-white uppercase px-8 py-2 rounded-full whitespace-nowrap min-w-[220px]"
+                        onClick={() => router.push('/menu')}
+                    >
                         <span className="inline-block align-middle">Hemen Sipariş Ver</span>
-                        <span className="inline-block align-middle"><Right className="w-6 h-6 text-white" /></span>
                     </button>
-                    <button type="button" className="flex items-center gap-8 py-2 text-gray-600 font-semibold whitespace-nowrap min-w-[180px]">
-                        <span className="inline-block align-middle">Daha Fazla Ogren</span>
-                        <span className="inline-block align-middle"><Right className="w-6 h-6 text-gray-600" /></span>
+                    <button 
+                        type="button" 
+                        className="flex items-center gap-2 py-2 text-gray-600 font-semibold whitespace-nowrap min-w-[180px]"
+                        onClick={() => router.push('/#about')}
+                    >
+                        <span className="inline-block align-middle">Daha Fazla Bilgi Edinin</span>
                     </button>
                 </div>
             </div>

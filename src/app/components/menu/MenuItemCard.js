@@ -14,7 +14,7 @@ export default function MenuItemCard({ image, name, ingredients, price, onAddToC
         className="bg-orange-500 text-white w-full rounded-full py-2 font-semibold text-base hover:bg-orange-600 transition-all"
         onClick={onAddToCart}
       >
-        Add to cart {price} ₺
+        Sepete Ekle {price} ₺
       </button>
     </div>
   );

@@ -11,8 +11,8 @@ export default function Home() {
       <section id="about" className="text-center mt-16">
         {/* Change this line */}
         <SectionHeaders
-          subHeader={'Our story '}
-          mainHeader={'About Us'}
+          subHeader={'Hikayemiz'}
+          mainHeader={'Hakkımızda'}
         />
         <div className="text-gray-500 max-w-md mx-auto mt-6 flex-col gap-4">
           <p>
@@ -27,8 +27,8 @@ export default function Home() {
       <section id="contact" className="text-center my-8">
         {/* And change this line too */}
         <SectionHeaders
-          subHeader={'DON\'T MISS OUT'}
-          mainHeader={'Contact us'}
+          subHeader={'Fırsatları Kaçırma'}
+          mainHeader={'Bize Ulaşın'}
         />
         <div className="mt-8">
           <a className="text-4xl underline text-gray-500 "

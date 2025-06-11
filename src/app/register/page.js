@@ -46,7 +46,7 @@ export default function RegisterPage() {
   return (
     <section className="mt-8">
       <h1 className="text-center text-orange-500 text-4xl mb-4">
-        Register
+        Kaydol
       </h1>
       {error && (
         <div className="my-4 text-center text-red-500">
@@ -55,14 +55,14 @@ export default function RegisterPage() {
       )}
       {userCreated && (
         <div className="my-4 text-center text-green-500">
-          User created successfully!<br /> Redirecting to login page...
+          Kullanıcı başarıyla oluşturuldu!<br /> Giriş sayfasına yönlendiriliyorsunuz...
         </div>
       )}
       {!userCreated && (
         <form className="block max-w-xs mx-auto" onSubmit={handleFormSubmit}>
           <input
             type="email"
-            placeholder="email"
+            placeholder="e-posta"
             value={email}
             disabled={creatingUser}
             onChange={(ev) => setEmail(ev.target.value)}
@@ -70,7 +70,7 @@ export default function RegisterPage() {
           />
           <input
             type="password"
-            placeholder="password"
+            placeholder="şifre"
             value={password}
             disabled={creatingUser}
             onChange={(ev) => setPassword(ev.target.value)}
@@ -78,11 +78,11 @@ export default function RegisterPage() {
             minLength={6}
           /> 
           <button type="submit" disabled={creatingUser}>
-            {creatingUser ? 'Creating account...' : 'Register'}
+            {creatingUser ? 'Hesap oluşturuluyor...' : 'Kaydol'}
           </button>
           <div className="text-center my-4 text-gray-500 border-t pt-4">
-            Existing account?{' '}
-            <Link className="underline" href={'/login'}>Login here &raquo;</Link>
+            Zaten bir hesabınız var mı?{' '}
+            <Link className="underline" href={'/login'}>Buradan giriş yapın &raquo;</Link>
           </div>
         </form>
       )}

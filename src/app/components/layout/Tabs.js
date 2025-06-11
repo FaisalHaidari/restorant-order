@@ -29,7 +29,7 @@ export default function Tabs({ isAdmin }) {
         Users
       </Link>
       <Link className={tabClass(path.startsWith("/orders"))} href={"/orders"}>
-        Orders
+        Siparişler
       </Link>
     </div>
   );

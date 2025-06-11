@@ -56,12 +56,12 @@ export default function OrdersPage() {
             <table className="min-w-full bg-white">
               <thead>
                 <tr className="w-full bg-gray-100 text-left text-gray-600 uppercase text-sm leading-normal">
-                  <th className="py-3 px-6 text-left">Sipariş ID</th>
-                  <th className="py-3 px-6 text-left">Kullanıcı</th>
-                  <th className="py-3 px-6 text-left">Toplam</th>
+                  <th className="py-3 px-6 text-left">Sipariş Numarası</th>
+                  <th className="py-3 px-6 text-left">Kullanıcı E-postası</th>
+                  <th className="py-3 px-6 text-left">Toplam Tutar</th>
                   <th className="py-3 px-6 text-left">Adres</th>
                   <th className="py-3 px-6 text-left">Tarih</th>
-                  <th className="py-3 px-6 text-left">Detaylar</th>
+                  <th className="py-3 px-6 text-left">İşlemler</th>
                 </tr>
               </thead>
               <tbody className="text-gray-700 text-sm font-light">
@@ -79,7 +79,7 @@ export default function OrdersPage() {
                         onClick={() => router.push(`/order/${order.id}`)}
                         className="bg-orange-500 text-white rounded-lg px-4 py-2 text-xs font-bold hover:bg-orange-600 transition-all"
                       >
-                        Görüntüle
+                        Detayları Görüntüle
                       </button>
                     </td>
                   </tr>

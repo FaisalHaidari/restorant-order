@@ -11,7 +11,7 @@ export default function AdminMessagesPage() {
   const [loading, setLoading] = useState(false);
   const [deleteMsg, setDeleteMsg] = useState("");
 
-  // Only show if authenticated and admin
+  // Sadece kimliği doğrulanmış ve yöneticiyse göster
   if (status !== 'authenticated' || !session?.user?.admin) return null;
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function AdminMessagesPage() {
       .then(data => setUsers(data.filter(u => !u.admin)));
   }, []);
 
-  // علامت‌گذاری پیام‌های خوانده‌نشده به عنوان خوانده‌شده هنگام انتخاب کاربر
+  // Kullanıcı seçildiğinde okunmamış mesajları okundu olarak işaretle
   useEffect(() => {
     if (selectedUser) {
       fetch("/api/messages", {
@@ -38,7 +38,7 @@ export default function AdminMessagesPage() {
     }
   }, [selectedUser]);
 
-  // پیام‌های فقط بین ادمین و کاربر انتخاب‌شده
+  // Sadece yöneticiden kullanıcıya gelen mesajları göster
   const userMessages = selectedUser
     ? messages.filter(m =>
         (m.senderId === selectedUser.id && m.receiverId !== selectedUser.id) ||

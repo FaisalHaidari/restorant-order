@@ -107,7 +107,7 @@ export default function ProfilePage() {
   }
 
   if (status === 'loading') {
-    return 'Loading...';
+    return 'Yükleniyor...';
   }
 
   if (status === 'unauthenticated') {
@@ -116,11 +116,11 @@ export default function ProfilePage() {
 
   return (
     <section className="mt-4 flex flex-col items-center justify-center min-h-[80vh]">
-      <h1 className="text-center text-orange-500 text-3xl mb-4">Profile</h1>
+      <h1 className="text-center text-orange-500 text-3xl mb-4">Profil</h1>
       {isSaved && (
         <div className="max-w-xs mx-auto">
           <h2 className="text-center bg-green-100 p-2 rounded-lg text-black font-semibold max-w-xs mx-auto text-sm mt-1 mb-1 shadow border">
-            Profile updated successfully!
+            Profil başarıyla güncellendi!
           </h2>
         </div>
       )}
@@ -149,86 +149,86 @@ export default function ProfilePage() {
             className="text-orange-500 border border-orange-400 rounded-xl px-3 py-1 text-sm font-semibold hover:bg-orange-50 transition-all h-8 mt-1"
             onClick={() => document.getElementById('avatar-upload').click()}
           >
-            Edit
+            Düzenle
           </button>
         </div>
         {/* Form Section */}
         <form onSubmit={handleProfileInfoUpdate} className="flex-1 flex flex-col gap-1 w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="name">First and last name</label>
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="name">Ad ve Soyad</label>
           <input
             id="name"
             type="text"
-            placeholder="First and last name"
+            placeholder="Ad ve Soyad"
             className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
             value={userName}
             onChange={ev => setUserName(ev.target.value)}
           />
-          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="email">Email</label>
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="email">E-posta</label>
           <input
             id="email"
             type="email"
-            placeholder="Email"
+            placeholder="E-posta"
             className="p-1 border rounded-md bg-gray-300 cursor-not-allowed text-sm h-8 mt-0"
             value={session.data.user.email}
             disabled
           />
-          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="phone">Phone</label>
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="phone">Telefon</label>
           <input
             id="phone"
             type="tel"
-            placeholder="Phone"
+            placeholder="Telefon"
             className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
             value={phone}
             onChange={ev => setPhone(ev.target.value)}
           />
-          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="street">Street address</label>
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="street">Sokak Adresi</label>
           <input
             id="street"
             type="text"
-            placeholder="Street address"
+            placeholder="Sokak Adresi"
             className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
             value={street}
             onChange={ev => setStreet(ev.target.value)}
           />
           <div className="flex gap-1">
             <div className="flex-1">
-              <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="postalCode">Postal code</label>
+              <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="postalCode">Posta Kodu</label>
               <input
                 id="postalCode"
                 type="text"
-                placeholder="Postal code"
+                placeholder="Posta Kodu"
                 className="p-1 border rounded-md bg-gray-100 text-sm h-8 w-full mt-0"
                 value={postalCode}
                 onChange={ev => setPostalCode(ev.target.value)}
               />
             </div>
             <div className="flex-1">
-              <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="city">City</label>
+              <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="city">Şehir</label>
               <input
                 id="city"
                 type="text"
-                placeholder="City"
+                placeholder="Şehir"
                 className="p-1 border rounded-md bg-gray-100 text-sm h-8 w-full mt-0"
                 value={city}
                 onChange={ev => setCity(ev.target.value)}
               />
             </div>
           </div>
-          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="country">Country</label>
+          <label className="block text-xs font-medium text-gray-700 mb-0" htmlFor="country">Ülke</label>
           <input
             id="country"
             type="text"
-            placeholder="Country"
+            placeholder="Ülke"
             className="p-1 border rounded-md bg-gray-100 text-sm h-8 mt-0"
             value={country}
             onChange={ev => setCountry(ev.target.value)}
           />
           <button
             type="submit"
+            className="bg-orange-500 text-white p-2 rounded-full mt-4 font-semibold hover:bg-orange-600 transition-all"
             disabled={isSaving}
-            className="bg-red-500 text-white p-1 rounded-md mt-2 hover:bg-red-600 disabled:bg-gray-400 font-semibold transition-colors text-sm h-8"
           >
-            {isSaving ? 'Saving...' : 'Save'}
+            Kaydet
           </button>
         </form>
       </div>

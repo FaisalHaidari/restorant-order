@@ -34,7 +34,7 @@ export default async function RootLayout({ children }) {
                   <ShowTabsOnAdminPages />
                   {children}
                   <footer className="border-t p-8 text-center text-gray-500 mt-8">
-                    &copy; 2024 All rights reserved
+                    &copy; 2024 Tüm hakları saklıdır
                   </footer>
                 </main>
               </CartItemsProvider>
