@@ -46,7 +46,7 @@ export default function RegisterPage() {
   return (
     <section className="mt-8">
       <h1 className="text-center text-orange-500 text-4xl mb-4">
-        Kaydol
+        Kayıt Ol
       </h1>
       {error && (
         <div className="my-4 text-center text-red-500">
