@@ -15,6 +15,11 @@ export default function Header() {
   const { cartCount } = useCartCount();
   const [unreadCount, setUnreadCount] = useState(0);
 
+  // Yönetici: Okunmamış kullanıcı mesajlarının sayısı
+  const [adminUnreadCount, setAdminUnreadCount] = useState(0);
+  // Kullanıcı: Okunmamış yönetici mesajlarının sayısı
+  const [userUnreadCount, setUserUnreadCount] = useState(0);
+
   useEffect(() => {
     if (status === 'authenticated') {
       fetch('/api/messages')

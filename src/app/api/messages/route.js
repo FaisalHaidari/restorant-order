@@ -3,113 +3,143 @@ import prisma from '../../../lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 
-// دریافت پیام‌های کاربر جاری یا همه پیام‌ها برای ادمین
+// Mevcut kullanıcıdan veya yönetici için tüm mesajları al
 export async function GET(req) {
   const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const userId = session.user.id;
-  const isAdmin = session.user.admin;
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get('userId');
 
   let messages;
-  if (isAdmin) {
-    // ادمین همه پیام‌ها را می‌بیند
+
+  if (session?.user?.admin) {
+    // Yönetici tüm mesajları görür
     messages = await prisma.message.findMany({
-      orderBy: { createdAt: 'asc' },
-      include: { sender: true, receiver: true }
+      include: { sender: true, receiver: true },
+      orderBy: { createdAt: 'asc' }
     });
   } else {
-    // کاربر فقط پیام‌های خودش را می‌بیند
+    // Kullanıcı sadece kendi mesajlarını görür
     messages = await prisma.message.findMany({
       where: {
         OR: [
-          { senderId: userId },
-          { receiverId: userId }
+          { senderId: session.user.id },
+          { receiverId: session.user.id },
         ]
       },
-      orderBy: { createdAt: 'asc' },
-      include: { sender: true, receiver: true }
+      include: { sender: true, receiver: true },
+      orderBy: { createdAt: 'asc' }
     });
   }
   return NextResponse.json(messages);
 }
 
-// ارسال پیام جدید
 export async function POST(req) {
   const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const userId = session.user.id;
-  const isAdmin = session.user.admin;
-  const data = await req.json();
-
-  // فقط کاربر به ادمین یا ادمین به کاربر می‌تواند پیام بدهد
-  if (!data.receiverId || !data.content) {
-    return NextResponse.json({ error: 'receiverId and content required' }, { status: 400 });
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  // اگر کاربر عادی است فقط به ادمین پیام بدهد
-  if (!isAdmin && !data.isToAdmin) {
-    return NextResponse.json({ error: 'User can only send to admin' }, { status: 403 });
-  }
+  const { receiverId, content, isToAdmin } = await req.json();
 
-  const message = await prisma.message.create({
-    data: {
-      senderId: userId,
-      receiverId: data.receiverId,
-      content: data.content
+  if (isToAdmin) {
+    // Eğer normal kullanıcı ise sadece yöneticiye mesaj gönderebilir
+    const adminUser = await prisma.user.findFirst({ where: { admin: true } });
+    if (!adminUser) {
+      return NextResponse.json({ error: 'Admin user not found' }, { status: 404 });
     }
-  });
-  return NextResponse.json(message);
+    const message = await prisma.message.create({
+      data: {
+        senderId: session.user.id,
+        receiverId: adminUser.id,
+        content,
+      },
+    });
+    return NextResponse.json(message);
+  } else {
+    const message = await prisma.message.create({
+      data: {
+        senderId: session.user.id,
+        receiverId,
+        content,
+      },
+    });
+    return NextResponse.json(message);
+  }
 }
 
-// علامت‌گذاری پیام‌ها به عنوان خوانده‌شده
 export async function PATCH(req) {
   const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { userId, receiverId } = await req.json();
-  if (session.user.admin && userId) {
-    // همه پیام‌های خوانده‌نشده از این کاربر به ادمین را خوانده‌شده کن
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const { userId } = await req.json();
+
+  if (session?.user?.admin) {
+    // Mesajları okundu olarak işaretle (yönetici tarafında)
     await prisma.message.updateMany({
       where: {
         senderId: userId,
         receiverId: session.user.id,
-        read: false
+        read: false,
       },
-      data: { read: true }
+      data: { read: true },
     });
-    return NextResponse.json({ success: true });
-  } else if (!session.user.admin && receiverId && receiverId === session.user.id) {
-    // کاربر: همه پیام‌های ادمین به خودش را خوانده‌شده کن
+    // Bu kullanıcıdan yöneticiye gelen tüm okunmamış mesajları okundu olarak işaretle
     await prisma.message.updateMany({
       where: {
-        sender: { admin: true },
-        receiverId: receiverId,
-        read: false
+        senderId: userId,
+        receiverId: session.user.id,
+        read: false,
       },
-      data: { read: true }
+      data: { read: true },
     });
-    return NextResponse.json({ success: true });
+  } else {
+    // Kullanıcı: Yönetici tarafından kendisine gelen tüm mesajları okundu olarak işaretle
+    await prisma.message.updateMany({
+      where: {
+        senderId: session.user.id,
+        receiverId: session.user.id,
+        read: false,
+      },
+      data: { read: true },
+    });
+    await prisma.message.updateMany({
+      where: {
+        senderId: { not: session.user.id }, // Diğer kullanıcıların gönderdiği mesajlar
+        receiverId: session.user.id,
+        read: false,
+      },
+      data: { read: true },
+    });
   }
-  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  return NextResponse.json({ success: true });
 }
 
-// حذف همه پیام‌ها (فقط توسط ادمین)
 export async function DELETE(req) {
   const session = await getServerSession(authOptions);
-  if (!session || !session.user.admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!session || !session.user?.admin) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get('userId');
+
   if (userId) {
-    // Delete all messages for this user
+    // Belirli bir kullanıcıya ait tüm mesajları sil (sadece yönetici)
     await prisma.message.deleteMany({
       where: {
         OR: [
-          { senderId: Number(userId) },
-          { receiverId: Number(userId) }
-        ]
-      }
+          { senderId: parseInt(userId) },
+          { receiverId: parseInt(userId) },
+        ],
+      },
     });
-    // Do NOT delete the user itself
-    return NextResponse.json({ success: true });
+    // Kullanıcıyı da sil
+    await prisma.user.delete({ where: { id: parseInt(userId) } });
+  } else {
+    // Tüm mesajları sil (sadece yönetici)
+    await prisma.message.deleteMany({});
   }
-  await prisma.message.deleteMany({});
   return NextResponse.json({ success: true });
 } 

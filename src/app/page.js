@@ -16,7 +16,7 @@ export default function Home() {
         />
         <div className="text-gray-500 max-w-md mx-auto mt-6 flex-col gap-4">
           <p>
-            Atakum Kavurmacısı, 1995 yılında kuruldu ve o zamandan beri
+            Atakum Kavurmacısı, 2022 yılında kuruldu ve o zamandan beri
             mükemmel kavurma sunma konusunda kendini adamıştır. Geleneksel
             tariflerimizle hazırlanan kavurmamız, taze ve kaliteli malzemelerle
             yapılmaktadır. Müşterilerimize en iyi deneyimi sunmak için sürekli
@@ -32,8 +32,8 @@ export default function Home() {
         />
         <div className="mt-8">
           <a className="text-4xl underline text-gray-500 "
-            href ="tel:+905555555555">
-            +90 555 555 55 55
+            href ="tel: 0362 228 85 55">
+             0362 228 85 55
           </a>
         </div>
       </section>

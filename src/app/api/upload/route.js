@@ -12,7 +12,7 @@ export async function POST(req) {
   const uploadDir = path.join(process.cwd(), 'public', 'uploads');
   const filePath = path.join(uploadDir, filename);
 
-  // اطمینان از وجود پوشه uploads
+  // uploads klasörünün varlığından emin olun
   await import('fs').then(fs => {
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });

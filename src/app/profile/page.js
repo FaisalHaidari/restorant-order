@@ -21,7 +21,7 @@ export default function ProfilePage() {
   const [country, setCountry] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // گرفتن اطلاعات کاربر از API بعد از هر بار لود شدن صفحه
+  // Sayfa yüklendikten sonra API'den kullanıcı bilgilerini alma
   useEffect(() => {
     async function fetchProfile() {
       if (status === 'authenticated') {
@@ -87,7 +87,7 @@ export default function ProfilePage() {
     setIsSaving(false);
   }
 
-  // هندلر آپلود عکس
+  // Resim yükleme işleyici
   async function handleFileChange(ev) {
     const files = ev.target.files;
     if (files?.length === 1) {

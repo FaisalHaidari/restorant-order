@@ -8,8 +8,10 @@ export default function AdminMessagesPage() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [deleteMsg, setDeleteMsg] = useState("");
+  // Her kullanıcı için okunmamış mesaj sayısı
+  const [userUnreadCounts, setUserUnreadCounts] = useState({});
 
   // Sadece kimliği doğrulanmış ve yöneticiyse göster
   if (status !== 'authenticated' || !session?.user?.admin) return null;
@@ -46,7 +48,7 @@ export default function AdminMessagesPage() {
       )
     : [];
 
-  // تعداد پیام‌های خوانده‌نشده هر کاربر
+  // Her kullanıcı için okunmamış mesaj sayısı
   function unreadCount(userId) {
     return messages.filter(m => m.senderId === userId && !m.read).length;
   }

@@ -64,7 +64,7 @@ export default function CartPage() {
     const data = await res.json();
     if (data.success) {
       router.push(`/payment?orderId=${data.order.id}`);
-      // پاک کردن سبد خرید بعد از هدایت به صفحه پرداخت
+      // Sepet temizleme işlemini ödeme sayfasına yönlendirdikten sonra yap
       setTimeout(() => {
         clearCart();
         resetCartCount();

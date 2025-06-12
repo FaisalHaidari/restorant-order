@@ -5,7 +5,7 @@ export async function middleware(request) {
   const token = await getToken({ req: request });
   const isAdmin = token?.admin;
 
-  // اگر کاربر به صفحه جزئیات سفارش دسترسی پیدا کند و ادمین نباشد
+  // Kullanıcı sipariş detayları sayfasına erişmeye çalışırsa ve yönetici değilse
   if (request.nextUrl.pathname.startsWith('/order/') && !isAdmin) {
     return NextResponse.redirect(new URL('/', request.url));
   }
