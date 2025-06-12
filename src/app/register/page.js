@@ -78,7 +78,7 @@ export default function RegisterPage() {
             minLength={6}
           /> 
           <button type="submit" disabled={creatingUser}>
-            {creatingUser ? 'Hesap oluşturuluyor...' : 'Kaydol'}
+            {creatingUser ? 'Hesap oluşturuluyor...' : 'Kayıt Ol'}
           </button>
           <div className="text-center my-4 text-gray-500 border-t pt-4">
             Zaten bir hesabınız var mı?{' '}

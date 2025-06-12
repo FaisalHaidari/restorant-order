@@ -101,7 +101,7 @@ export default function Header() {
           <>
             <Link href={'/login'}>Giriş Yap</Link>
             <Link href={'/register'} className="bg-orange-500 rounded-full text-white px-8 py-2">
-              Kaydol
+              Kayıt Ol
             </Link>
           </>
         )}
