@@ -21,8 +21,12 @@ export function CartCountProvider({ children }) {
     setCartCount(count => count + 1);
   }
 
+  function resetCartCount() {
+    setCartCount(0);
+  }
+
   return (
-    <CartCountContext.Provider value={{ cartCount, addToCart }}>
+    <CartCountContext.Provider value={{ cartCount, addToCart, resetCartCount }}>
       {children}
     </CartCountContext.Provider>
   );

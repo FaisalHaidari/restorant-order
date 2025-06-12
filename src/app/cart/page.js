@@ -1,11 +1,13 @@
 "use client"
 import { useCartItems } from "../components/AppContext";
+import { useCartCount } from "../components/AppContext";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const { cartItems, removeItem, increaseQuantity, decreaseQuantity, clearCart } = useCartItems();
+  const { resetCartCount } = useCartCount();
   const total = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
   // Checkout form state
   const [phone, setPhone] = useState("");
@@ -61,8 +63,12 @@ export default function CartPage() {
     });
     const data = await res.json();
     if (data.success) {
-      clearCart();
-      router.push(`/order/${data.order.id}`);
+      router.push(`/payment?orderId=${data.order.id}`);
+      // پاک کردن سبد خرید بعد از هدایت به صفحه پرداخت
+      setTimeout(() => {
+        clearCart();
+        resetCartCount();
+      }, 100);
     } else {
       alert('Sipariş kaydedilemedi!');
     }

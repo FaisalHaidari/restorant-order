@@ -15,7 +15,7 @@ export async function GET(req, { params }) {
     const order = await prisma.order.findUnique({
       where: {
         id: parseInt(orderId),
-        userId: session.user.id, // Ensure user can only view their own orders
+        ...(session.user && !session.user.admin && { userId: session.user.id }),
       },
       include: {
         items: {
